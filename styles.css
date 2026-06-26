@@ -1068,7 +1068,7 @@ h1, h2, h3, h4, h5, h6 {
 .footer-contact-info {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 10px;
 }
 
 .footer-phone {
@@ -1081,14 +1081,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .footer-phone-icon {
-  width: 40px;
-  height: 40px;
-  background: var(--clr-whatsapp);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.2rem;
+  width: 22px;
+  height: 22px;
+  color: var(--clr-gold-light);
+  flex-shrink: 0;
 }
 
 .footer-cta-text {
@@ -2184,7 +2180,7 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 0.95rem;
   }
 
-  /* Footer — single column */
+  /* Footer — single column for brand, side-by-side for links & contact */
   .footer {
     padding: 48px 0 0;
   }
@@ -2193,6 +2189,29 @@ h1, h2, h3, h4, h5, h6 {
     grid-template-columns: 1fr;
     gap: 32px;
     text-align: center;
+  }
+
+  /* Quick Links + Contact Us: side-by-side row */
+  .footer-grid > div:nth-child(2),
+  .footer-grid > div:nth-child(3) {
+    display: inline-block;
+    vertical-align: top;
+    width: 48%;
+    text-align: center;
+  }
+
+  .footer-grid > div:nth-child(2) {
+    float: left;
+  }
+
+  .footer-grid > div:nth-child(3) {
+    float: right;
+  }
+
+  .footer-grid::after {
+    content: '';
+    display: table;
+    clear: both;
   }
 
   .footer-logo-row {
