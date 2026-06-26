@@ -1,0 +1,23 @@
+{
+  "name": "sri-tirumala-organics",
+  "version": "1.0.0",
+  "description": "A responsive single-page e-commerce website for **Sri Tirumala Organic Oils & Millets** — a traditional cold-pressed organic oil and millet business from Rayalaseema, Andhra Pradesh, India.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JASWANTHguruguntla/sri-tirumala-organics.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JASWANTHguruguntla/sri-tirumala-organics/issues"
+  },
+  "homepage": "https://github.com/JASWANTHguruguntla/sri-tirumala-organics#readme",
+  "dependencies": {
+    "@vercel/analytics": "^2.0.1"
+  }
+}
