@@ -41,7 +41,7 @@ sri-tirumala-organics/
 ├── README.md
 ├── .gitignore
 └── images/
-    ├── logo.jpg        # Brand logo
+    ├── logo.jpeg       # Brand logo
     ├── hero_bg.png     # Hero section background
     ├── hero-poster.jpg # Brand poster
     └── *.png           # Product images (12 items)
