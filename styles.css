@@ -1739,7 +1739,24 @@ h1, h2, h3, h4, h5, h6 {
   width: 100%;
 }
 
-/* --- Mobile Responsive --- */
+/* ═══════════════════════════════════════════════
+   MOBILE RESPONSIVE — COMPREHENSIVE OVERHAUL
+   ═══════════════════════════════════════════════ */
+
+/* --- iOS / notch safe areas --- */
+@supports (padding: env(safe-area-inset-bottom)) {
+  .footer-bottom {
+    padding-bottom: calc(20px + env(safe-area-inset-bottom));
+  }
+  .whatsapp-float {
+    bottom: calc(24px + env(safe-area-inset-bottom));
+  }
+  .order-panel-toggle {
+    bottom: calc(24px + env(safe-area-inset-bottom));
+  }
+}
+
+/* --- Tablet landscape / small desktop (≤ 1024px) --- */
 @media (max-width: 1024px) {
   .why-us-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -1749,42 +1766,70 @@ h1, h2, h3, h4, h5, h6 {
     grid-template-columns: 1fr 1fr;
     gap: 32px;
   }
+
+  .product-grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  }
 }
 
+/* --- Tablet portrait / large mobile (≤ 768px) --- */
 @media (max-width: 768px) {
   :root {
-    --nav-height: 64px;
+    --nav-height: 60px;
   }
 
+  /* Announcement banner: single line, horizontal scroll */
   .announcement-banner {
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     padding: 8px 16px;
+    white-space: nowrap;
+    overflow: hidden;
   }
 
+  .announcement-banner .banner-text {
+    display: inline-block;
+    animation: bannerMarquee 18s linear infinite;
+    padding-left: 100%;
+  }
+
+  @keyframes bannerMarquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
+  }
+
+  /* Navigation — slide-in mobile drawer */
   .nav-links {
     position: fixed;
     top: 0;
     right: -100%;
     width: 280px;
-    height: 100%;
-    background: var(--clr-primary);
+    height: 100vh;
+    height: 100dvh;
+    background: linear-gradient(180deg, var(--clr-primary) 0%, var(--clr-primary-dark) 100%);
     flex-direction: column;
-    padding: 80px 32px 32px;
+    padding: 80px 28px 32px;
     gap: 4px;
     transition: right var(--transition-slow);
-    box-shadow: -4px 0 20px rgba(0, 0, 0, 0.3);
+    box-shadow: -4px 0 24px rgba(0, 0, 0, 0.4);
     z-index: 1000;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .nav-links.active {
     right: 0;
   }
 
+  .nav-links li {
+    width: 100%;
+  }
+
   .nav-links a {
     display: block;
     padding: 14px 20px;
-    font-size: 1.1rem;
+    font-size: 1.05rem;
     border-radius: var(--radius-md);
+    width: 100%;
   }
 
   .nav-links a::after {
@@ -1795,109 +1840,409 @@ h1, h2, h3, h4, h5, h6 {
     margin-top: 16px;
     width: 100%;
     justify-content: center;
+    padding: 14px 20px;
   }
 
   .nav-toggle {
     display: flex;
   }
 
+  .nav-brand-text {
+    font-size: 1rem;
+  }
+
+  /* Hero */
   .hero {
-    min-height: 70vh;
+    min-height: auto;
+    padding: 0;
+  }
+
+  .hero-content {
+    padding: 48px 20px 40px;
   }
 
   .hero-telugu {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
+    margin-bottom: 8px;
   }
 
   .hero-title {
-    font-size: 2rem;
+    font-size: 1.85rem;
+    margin-bottom: 14px;
   }
 
   .hero-subtitle {
-    font-size: 1rem;
+    font-size: 0.9rem;
+    margin-bottom: 28px;
+    line-height: 1.8;
+  }
+
+  .hero-subtitle span {
+    display: inline;
   }
 
   .hero-buttons {
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
+    gap: 12px;
+    margin-bottom: 32px;
   }
 
+  .btn-primary,
+  .btn-secondary {
+    justify-content: center;
+    padding: 14px 24px;
+    font-size: 0.95rem;
+    width: 100%;
+  }
+
+  /* Trust badges — horizontal scroll on mobile */
   .trust-badges {
-    gap: 12px;
+    gap: 8px;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    padding-bottom: 4px;
+    margin: 0 -20px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .trust-badges::-webkit-scrollbar {
+    display: none;
   }
 
   .trust-badge {
-    padding: 8px 12px;
+    padding: 8px 14px;
     font-size: 0.75rem;
+    white-space: nowrap;
+    flex-shrink: 0;
   }
 
-  .about-features {
-    grid-template-columns: 1fr;
-    gap: 20px;
+  /* Sections */
+  .section {
+    padding: 48px 0;
   }
 
-  .product-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-  }
-
-  .product-image-wrapper {
-    height: 160px;
-  }
-
-  .product-info {
-    padding: 14px;
-  }
-
-  .product-name {
-    font-size: 1rem;
-  }
-
-  .product-price {
-    font-size: 0.95rem;
-    padding: 5px 12px;
+  .section-header {
+    margin-bottom: 36px;
   }
 
   .section-header h2 {
-    font-size: 1.8rem;
+    font-size: 1.7rem;
   }
 
-  .section {
-    padding: 56px 0;
+  .section-header .subtitle {
+    font-size: 0.95rem;
   }
 
-  .why-us-grid {
-    grid-template-columns: repeat(2, 1fr);
+  .section-divider {
+    padding: 12px 0;
+    font-size: 1.4rem;
+    letter-spacing: 10px;
+  }
+
+  /* About Features — stack on mobile */
+  .about-features {
+    grid-template-columns: 1fr;
     gap: 16px;
   }
 
+  .about-feature {
+    padding: 24px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .about-feature .feature-icon {
+    font-size: 2.4rem;
+    margin-bottom: 12px;
+  }
+
+  .about-feature h3 {
+    font-size: 1.1rem;
+  }
+
+  .about-paragraph {
+    font-size: 0.95rem;
+    padding: 20px 16px;
+    text-align: left;
+    line-height: 1.7;
+  }
+
+  /* Product Grid — 2 columns */
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .product-category-header {
+    margin-bottom: 20px;
+    padding-bottom: 8px;
+  }
+
+  .product-category-header .cat-icon {
+    font-size: 1.5rem;
+  }
+
+  .product-category-header h3 {
+    font-size: 1.25rem;
+  }
+
+  .product-image-wrapper {
+    height: 150px;
+  }
+
+  .product-info {
+    padding: 12px;
+  }
+
+  .product-name {
+    font-size: 0.92rem;
+    line-height: 1.3;
+    margin-bottom: 2px;
+  }
+
+  .product-name-telugu {
+    font-size: 0.78rem;
+    margin-bottom: 8px;
+    line-height: 1.4;
+  }
+
+  .product-price {
+    font-size: 0.88rem;
+    padding: 4px 10px;
+    margin-bottom: 10px;
+  }
+
+  .product-price .unit {
+    font-size: 0.7rem;
+  }
+
+  /* Stock badges — shorter text on mobile */
+  .stock-badge {
+    padding: 3px 8px;
+    font-size: 0.65rem;
+    top: 8px;
+    right: 8px;
+  }
+
+  .coming-soon-overlay {
+    font-size: 0.75rem;
+    padding: 8px;
+  }
+
+  .btn-add-order {
+    padding: 10px 12px;
+    font-size: 0.82rem;
+    border-radius: var(--radius-sm);
+  }
+
+  .btn-notify {
+    padding: 10px 12px;
+    font-size: 0.8rem;
+    border-width: 1.5px;
+  }
+
+  /* Why Choose Us */
+  .why-us-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .why-card {
+    padding: 24px 14px;
+  }
+
+  .why-card .card-icon {
+    font-size: 2.2rem;
+    margin-bottom: 10px;
+  }
+
+  .why-card h3 {
+    font-size: 0.95rem;
+    margin-bottom: 6px;
+  }
+
+  .why-card p {
+    font-size: 0.82rem;
+    line-height: 1.5;
+  }
+
+  /* Testimonials — single column */
   .testimonials-grid {
     grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .testimonial-card {
+    padding: 24px 20px;
+  }
+
+  .testimonial-card::before {
+    font-size: 3rem;
+    top: 10px;
+    left: 14px;
+  }
+
+  .testimonial-text {
+    font-size: 0.95rem;
+  }
+
+  /* Footer — single column */
+  .footer {
+    padding: 48px 0 0;
   }
 
   .footer-grid {
     grid-template-columns: 1fr;
     gap: 32px;
+    text-align: center;
   }
 
-  /* Order panel mobile */
+  .footer-logo-row {
+    justify-content: center;
+  }
+
+  .footer-brand {
+    align-items: center;
+  }
+
+  .footer-links a {
+    justify-content: center;
+  }
+
+  .footer-contact-info {
+    align-items: center;
+  }
+
+  .social-icons {
+    justify-content: center;
+  }
+
+  .footer-bottom {
+    font-size: 0.78rem;
+    padding: 16px 12px;
+    line-height: 1.6;
+  }
+
+  /* Order panel — full-screen on mobile */
   .order-panel {
     width: 100%;
     right: -100%;
   }
 
-  .order-panel-toggle {
-    right: 90px;
-    bottom: 20px;
-    padding: 12px 18px;
+  .order-panel-header {
+    padding: 16px 20px;
+  }
+
+  .order-panel-body {
+    padding: 16px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Order form — make scrollable on mobile */
+  .order-form {
+    padding: 16px;
+    flex-shrink: 1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    max-height: 50vh;
+  }
+
+  .order-form h4 {
+    font-size: 0.95rem;
+    margin-bottom: 12px;
+  }
+
+  .form-group {
+    margin-bottom: 10px;
+  }
+
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    padding: 10px 12px;
+    font-size: 16px; /* prevents iOS zoom on focus */
+  }
+
+  .delivery-options {
+    gap: 8px;
+  }
+
+  .delivery-option {
+    padding: 10px 8px;
+    font-size: 0.82rem;
+  }
+
+  .btn-whatsapp-order {
+    padding: 14px;
+    font-size: 0.95rem;
+  }
+
+  /* Order item — touch-friendly sizing */
+  .order-item {
+    gap: 10px;
+    padding: 12px;
+    flex-wrap: wrap;
+  }
+
+  .order-item-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .order-item-name {
+    font-size: 0.88rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .order-item-price {
+    font-size: 0.82rem;
+  }
+
+  .quantity-stepper button {
+    width: 34px;
+    height: 34px;
+    font-size: 1.1rem;
+    min-width: 34px; /* prevent shrink */
+  }
+
+  .quantity-stepper .qty-value {
+    width: 34px;
     font-size: 0.9rem;
+  }
+
+  .order-total-bar {
+    padding: 12px 16px;
+    font-size: 1rem;
+  }
+
+  .order-total-amount {
+    font-size: 1.15rem;
+  }
+
+  /* Floating buttons — prevent overlap */
+  .order-panel-toggle {
+    bottom: 20px;
+    left: 16px;
+    right: auto;
+    padding: 12px 18px;
+    font-size: 0.88rem;
+    max-width: calc(100% - 92px); /* room for whatsapp button */
   }
 
   .whatsapp-float {
     width: 52px;
     height: 52px;
     bottom: 20px;
-    right: 20px;
+    right: 16px;
   }
 
   .whatsapp-float svg {
@@ -1908,63 +2253,86 @@ h1, h2, h3, h4, h5, h6 {
   .whatsapp-float .tooltip {
     display: none;
   }
-}
 
-@media (max-width: 480px) {
-  .container {
-    padding: 0 16px;
+  /* Product Modal — mobile optimized */
+  .product-modal-overlay {
+    padding: 0;
+    align-items: flex-end;
   }
 
-  .product-grid {
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
+  .product-modal {
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    max-height: 92vh;
+    max-height: 92dvh;
+    animation: modalSlideUpMobile 0.35s ease-out;
   }
 
-  .product-image-wrapper {
-    height: 140px;
+  @keyframes modalSlideUpMobile {
+    from {
+      opacity: 0;
+      transform: translateY(100%);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
-  .product-name {
+  .modal-image-wrapper {
+    height: 200px;
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  }
+
+  .modal-body {
+    padding: 20px;
+  }
+
+  .modal-body h2 {
+    font-size: 1.3rem;
+  }
+
+  .modal-telugu-name {
     font-size: 0.9rem;
   }
 
-  .product-name-telugu {
-    font-size: 0.8rem;
+  .modal-price-row {
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
   }
 
-  .product-price {
-    font-size: 0.85rem;
-    padding: 4px 10px;
+  .modal-price-row .stock-badge {
+    position: static;
   }
 
-  .btn-add-order {
-    padding: 10px 14px;
-    font-size: 0.85rem;
+  .modal-description {
+    font-size: 0.92rem;
+    line-height: 1.7;
+    margin-bottom: 16px;
   }
 
-  .hero-title {
-    font-size: 1.7rem;
+  .modal-benefits li {
+    font-size: 0.88rem;
+    padding-left: 24px;
   }
 
-  .hero-telugu {
-    font-size: 1.1rem;
+  .modal-close {
+    width: 36px;
+    height: 36px;
+    top: 12px;
+    right: 12px;
+  }
+}
+
+/* --- Small mobile (≤ 480px) --- */
+@media (max-width: 480px) {
+  .container {
+    padding: 0 14px;
   }
 
-  .why-us-grid {
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-  }
-
-  .why-card {
-    padding: 24px 16px;
-  }
-
-  .why-card .card-icon {
-    font-size: 2.4rem;
-  }
-
-  .why-card h3 {
-    font-size: 1rem;
+  .nav-logo {
+    width: 40px;
+    height: 40px;
   }
 
   .nav-brand-text {
@@ -1974,11 +2342,420 @@ h1, h2, h3, h4, h5, h6 {
   .nav-brand-text .brand-sub {
     display: none;
   }
+
+  .hero-content {
+    padding: 36px 14px 32px;
+  }
+
+  .hero-telugu {
+    font-size: 1.05rem;
+  }
+
+  .hero-title {
+    font-size: 1.55rem;
+    line-height: 1.25;
+  }
+
+  .hero-subtitle {
+    font-size: 0.82rem;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    padding: 12px 20px;
+    font-size: 0.88rem;
+  }
+
+  .section {
+    padding: 36px 0;
+  }
+
+  .section-header {
+    margin-bottom: 28px;
+  }
+
+  .section-header h2 {
+    font-size: 1.5rem;
+  }
+
+  .section-header .subtitle {
+    font-size: 0.88rem;
+  }
+
+  /* Product cards — compact 2-col */
+  .product-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .product-image-wrapper {
+    height: 120px;
+  }
+
+  .product-info {
+    padding: 10px;
+  }
+
+  .product-name {
+    font-size: 0.82rem;
+    line-height: 1.25;
+  }
+
+  .product-name-telugu {
+    font-size: 0.72rem;
+    margin-bottom: 6px;
+  }
+
+  .product-price {
+    font-size: 0.78rem;
+    padding: 3px 8px;
+    margin-bottom: 8px;
+  }
+
+  .product-price .unit {
+    font-size: 0.65rem;
+  }
+
+  .product-price.no-price {
+    font-size: 0.72rem;
+  }
+
+  .stock-badge {
+    padding: 2px 6px;
+    font-size: 0.6rem;
+    top: 6px;
+    right: 6px;
+  }
+
+  .coming-soon-overlay {
+    font-size: 0.68rem;
+    padding: 6px;
+  }
+
+  .btn-add-order {
+    padding: 8px 10px;
+    font-size: 0.78rem;
+    gap: 4px;
+  }
+
+  .btn-notify {
+    padding: 8px 10px;
+    font-size: 0.75rem;
+    gap: 4px;
+    border-width: 1px;
+  }
+
+  /* About section */
+  .about-feature .feature-icon {
+    font-size: 2rem;
+  }
+
+  .about-feature h3 {
+    font-size: 1rem;
+  }
+
+  .about-feature p {
+    font-size: 0.88rem;
+  }
+
+  .about-paragraph {
+    font-size: 0.88rem;
+    padding: 16px 14px;
+  }
+
+  /* Why Choose Us */
+  .why-us-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .why-card {
+    padding: 20px 12px;
+  }
+
+  .why-card .card-icon {
+    font-size: 2rem;
+    margin-bottom: 8px;
+  }
+
+  .why-card h3 {
+    font-size: 0.88rem;
+  }
+
+  .why-card p {
+    font-size: 0.78rem;
+  }
+
+  /* Testimonials */
+  .testimonial-card {
+    padding: 20px 16px;
+  }
+
+  .testimonial-stars {
+    font-size: 0.95rem;
+    margin-bottom: 12px;
+  }
+
+  .testimonial-text {
+    font-size: 0.88rem;
+  }
+
+  /* Footer */
+  .footer-brand-name {
+    font-size: 1.1rem;
+  }
+
+  .footer-phone {
+    font-size: 1.1rem;
+  }
+
+  .footer-bottom {
+    font-size: 0.72rem;
+    padding: 14px 10px;
+  }
+
+  /* Floating buttons */
+  .order-panel-toggle {
+    bottom: 16px;
+    left: 12px;
+    padding: 10px 14px;
+    font-size: 0.82rem;
+    max-width: calc(100% - 84px);
+  }
+
+  .whatsapp-float {
+    width: 48px;
+    height: 48px;
+    bottom: 16px;
+    right: 12px;
+  }
+
+  .whatsapp-float svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  /* Order panel */
+  .order-panel-header h3 {
+    font-size: 1.05rem;
+  }
+
+  .order-item {
+    gap: 8px;
+    padding: 10px;
+  }
+
+  .order-item-name {
+    font-size: 0.82rem;
+  }
+
+  .quantity-stepper button {
+    width: 30px;
+    height: 30px;
+    font-size: 1rem;
+    min-width: 30px;
+  }
+
+  .quantity-stepper .qty-value {
+    width: 30px;
+    font-size: 0.85rem;
+  }
+
+  /* Modal */
+  .modal-image-wrapper {
+    height: 170px;
+  }
+
+  .modal-body {
+    padding: 16px;
+  }
+
+  .modal-body h2 {
+    font-size: 1.2rem;
+  }
+}
+
+/* --- Extra small mobile (≤ 360px) — iPhone SE, Galaxy S etc. --- */
+@media (max-width: 360px) {
+  .container {
+    padding: 0 12px;
+  }
+
+  .hero-title {
+    font-size: 1.35rem;
+  }
+
+  .hero-telugu {
+    font-size: 0.95rem;
+  }
+
+  .hero-subtitle {
+    font-size: 0.78rem;
+  }
+
+  .section-header h2 {
+    font-size: 1.35rem;
+  }
+
+  .product-image-wrapper {
+    height: 110px;
+  }
+
+  .product-name {
+    font-size: 0.78rem;
+  }
+
+  .product-name-telugu {
+    font-size: 0.68rem;
+  }
+
+  .product-price {
+    font-size: 0.72rem;
+    padding: 3px 7px;
+  }
+
+  .btn-add-order {
+    padding: 7px 8px;
+    font-size: 0.72rem;
+  }
+
+  .btn-notify {
+    padding: 7px 8px;
+    font-size: 0.7rem;
+  }
+
+  .why-card {
+    padding: 16px 10px;
+  }
+
+  .why-card .card-icon {
+    font-size: 1.6rem;
+  }
+
+  .why-card h3 {
+    font-size: 0.82rem;
+  }
+
+  .why-card p {
+    font-size: 0.72rem;
+  }
+
+  .about-feature {
+    padding: 18px 14px;
+  }
+
+  .nav-logo {
+    width: 36px;
+    height: 36px;
+  }
+
+  .nav-brand-text {
+    font-size: 0.82rem;
+  }
+
+  .order-panel-toggle {
+    font-size: 0.78rem;
+    padding: 8px 12px;
+  }
+
+  .cart-count {
+    width: 18px;
+    height: 18px;
+    font-size: 0.65rem;
+  }
+}
+
+/* --- Landscape mobile fix --- */
+@media (max-height: 500px) and (orientation: landscape) {
+  .hero {
+    min-height: auto;
+  }
+
+  .hero-content {
+    padding: 24px 20px;
+  }
+
+  .hero-title {
+    font-size: 1.5rem;
+  }
+
+  .hero-telugu {
+    font-size: 1rem;
+    margin-bottom: 4px;
+  }
+
+  .hero-buttons {
+    flex-direction: row;
+    margin-bottom: 16px;
+  }
+
+  .trust-badges {
+    gap: 8px;
+  }
+
+  .section {
+    padding: 32px 0;
+  }
+
+  .product-modal {
+    max-height: 95vh;
+  }
+
+  .modal-image-wrapper {
+    height: 140px;
+  }
+}
+
+/* --- Touch device optimization --- */
+@media (hover: none) and (pointer: coarse) {
+  /* Remove hover transforms that cause jank on touch */
+  .product-card:hover {
+    transform: none;
+  }
+
+  .product-card:active {
+    transform: scale(0.98);
+    transition: transform 0.1s;
+  }
+
+  .about-feature:hover,
+  .why-card:hover,
+  .testimonial-card:hover {
+    transform: none;
+  }
+
+  /* Larger touch targets */
+  .nav-toggle {
+    padding: 12px;
+  }
+
+  .nav-toggle span {
+    width: 28px;
+    height: 3px;
+  }
+
+  /* Disable bounce animation on floating button — saves battery */
+  .whatsapp-float {
+    animation: none;
+  }
+
+  .order-panel-toggle {
+    animation: none;
+  }
 }
 
 /* Print styles */
 @media print {
-  .navbar, .whatsapp-float, .order-panel-toggle, .order-panel, .order-panel-overlay, .announcement-banner {
+  .navbar, .whatsapp-float, .order-panel-toggle, .order-panel, .order-panel-overlay, .announcement-banner, .product-modal-overlay {
     display: none !important;
+  }
+
+  .section {
+    padding: 24px 0;
+    break-inside: avoid;
+  }
+
+  .product-grid {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
