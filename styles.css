@@ -1077,7 +1077,7 @@ h1, h2, h3, h4, h5, h6 {
   gap: 12px;
   font-size: 1.3rem;
   font-weight: 700;
-  color: var(--clr-gold-light);
+  color: rgba(249, 245, 231, 0.7);
 }
 
 .footer-phone-icon {
