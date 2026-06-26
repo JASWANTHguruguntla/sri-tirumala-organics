@@ -2180,38 +2180,20 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 0.95rem;
   }
 
-  /* Footer — single column for brand, side-by-side for links & contact */
+  /* Footer — brand full-width, Quick Links + Contact Us side-by-side */
   .footer {
     padding: 48px 0 0;
   }
 
   .footer-grid {
-    grid-template-columns: 1fr;
-    gap: 32px;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px 16px;
     text-align: center;
   }
 
-  /* Quick Links + Contact Us: side-by-side row */
-  .footer-grid > div:nth-child(2),
-  .footer-grid > div:nth-child(3) {
-    display: inline-block;
-    vertical-align: top;
-    width: 45%;
-    text-align: center;
-  }
-
-  .footer-grid > div:nth-child(2) {
-    float: left;
-  }
-
-  .footer-grid > div:nth-child(3) {
-    float: right;
-  }
-
-  .footer-grid::after {
-    content: '';
-    display: table;
-    clear: both;
+  /* Brand section spans both columns */
+  .footer-grid > .footer-brand {
+    grid-column: 1 / -1;
   }
 
   .footer-logo-row {
