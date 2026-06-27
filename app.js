@@ -706,23 +706,4 @@ if (heroVideo && muteBtn) {
       iconUnmuted.style.display = 'block';
     }
   });
-  });
-}
-
-const whyUsVideo = document.getElementById('why-us-video');
-const whyUsMuteBtn = document.getElementById('why-us-mute-btn');
-const whyUsIconMuted = document.getElementById('why-us-icon-muted');
-const whyUsIconUnmuted = document.getElementById('why-us-icon-unmuted');
-
-if (whyUsVideo && whyUsMuteBtn) {
-  whyUsMuteBtn.addEventListener('click', () => {
-    whyUsVideo.muted = !whyUsVideo.muted;
-    if (whyUsVideo.muted) {
-      whyUsIconMuted.style.display = 'block';
-      whyUsIconUnmuted.style.display = 'none';
-    } else {
-      whyUsIconMuted.style.display = 'none';
-      whyUsIconUnmuted.style.display = 'block';
-    }
-  });
 }
