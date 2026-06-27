@@ -689,21 +689,26 @@ shakeStyle.textContent = `
 `;
 document.head.appendChild(shakeStyle);
 
-// ═══════════════ VIDEO MUTE TOGGLE ═══════════════
-const heroVideo = document.getElementById('hero-video');
-const muteBtn = document.getElementById('mute-btn');
-const iconMuted = document.getElementById('icon-muted');
-const iconUnmuted = document.getElementById('icon-unmuted');
+// ═══════════════ VIDEO MUTE TOGGLES ═══════════════
+function setupVideoMuteToggle(videoId, btnId, mutedIconId, unmutedIconId) {
+  const video = document.getElementById(videoId);
+  const btn = document.getElementById(btnId);
+  const iconMuted = document.getElementById(mutedIconId);
+  const iconUnmuted = document.getElementById(unmutedIconId);
 
-if (heroVideo && muteBtn) {
-  muteBtn.addEventListener('click', () => {
-    heroVideo.muted = !heroVideo.muted;
-    if (heroVideo.muted) {
-      iconMuted.style.display = 'block';
-      iconUnmuted.style.display = 'none';
-    } else {
-      iconMuted.style.display = 'none';
-      iconUnmuted.style.display = 'block';
-    }
-  });
+  if (video && btn) {
+    btn.addEventListener('click', () => {
+      video.muted = !video.muted;
+      if (video.muted) {
+        iconMuted.style.display = 'block';
+        iconUnmuted.style.display = 'none';
+      } else {
+        iconMuted.style.display = 'none';
+        iconUnmuted.style.display = 'block';
+      }
+    });
+  }
 }
+
+setupVideoMuteToggle('hero-video', 'mute-btn', 'icon-muted', 'icon-unmuted');
+setupVideoMuteToggle('why-us-video', 'why-us-mute-btn', 'why-us-icon-muted', 'why-us-icon-unmuted');
