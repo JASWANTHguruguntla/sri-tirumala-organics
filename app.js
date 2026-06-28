@@ -205,6 +205,22 @@ const products = {
         'High in iron and calcium',
         'Versatile — makes great rice alternatives'
       ]
+    },
+    {
+      id: 'ragi-malt',
+      name: 'Ragi Malt / Ragi Powder',
+      nameTelugu: 'రాగి మాల్ట్ / రాగి పిండి',
+      price: 85,
+      unit: 'Kg',
+      inStock: true,
+      image: 'images/ragi_malt.png',
+      description: 'Nutrient-rich Ragi Malt, perfect for a healthy breakfast or energy drink. Made from premium quality sprouted ragi.',
+      benefits: [
+        'High in calcium and iron',
+        'Easy to digest',
+        'Great for all ages',
+        'Excellent for bone health'
+      ]
     }
   ]
 };
