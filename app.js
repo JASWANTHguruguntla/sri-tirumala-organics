@@ -145,9 +145,9 @@ const products = {
       id: 'sorghum',
       name: 'Sorghum',
       nameTelugu: 'జొన్నలు',
-      price: null,
+      price: 80,
       unit: 'Kg',
-      inStock: false,
+      inStock: true,
       image: 'images/sorghum.png',
       description: 'Wholesome sorghum (Jowar) — a gluten-free ancient grain perfect for rotis, porridge, and more.',
       benefits: [
