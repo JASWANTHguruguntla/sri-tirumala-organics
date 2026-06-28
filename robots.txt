@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://sritirumalaorganics.com/sitemap.xml
+Sitemap: https://www.sritirumalaorganics.com/sitemap.xml
