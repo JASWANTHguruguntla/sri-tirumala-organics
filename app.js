@@ -159,8 +159,8 @@ const products = {
     },
     {
       id: 'peanuts',
-      name: 'Groundnut / Peanuts',
-      nameTelugu: 'శనగ విత్తనాలు/వల్లేలు',
+      name: 'Groundnuts / Peanuts',
+      nameTelugu: 'వేరుశనగ విత్తనాలు / పల్లీలు',
       price: 170,
       unit: 'Kg',
       inStock: true,
