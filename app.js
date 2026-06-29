@@ -436,6 +436,8 @@ window.addVariantToCart = function(productId) {
       unit: selectedSizeLabel,
       quantity: quantity
     });
+  }
+  
   // Update button state visually
   const btn = document.getElementById(`btn-${product.id}`);
   if (btn) {
