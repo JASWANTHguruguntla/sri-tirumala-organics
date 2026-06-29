@@ -439,8 +439,9 @@ window.addVariantToCart = function(productId) {
   }
   
   // Show notification or open cart panel
+  updateOrderPanel();
+  showOrderToggle();
   openOrderPanel();
-  renderOrderItems();
 };
 
 
