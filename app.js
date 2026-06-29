@@ -225,6 +225,19 @@ const products = {
   ]
 };
 
+// Add sizes to products
+products.oils.find(p => p.id === 'groundnut-oil').sizes = [{ label: '1 Litre', multiplier: 1 }, { label: '5 Litres', multiplier: 5 }];
+products.oils.find(p => p.id === 'sunflower-oil').sizes = [{ label: '1 Litre', multiplier: 1 }, { label: '5 Litres', multiplier: 5 }];
+products.oils.find(p => p.id === 'sesame-oil').sizes = [{ label: '500ml', multiplier: 0.5 }, { label: '1 Litre', multiplier: 1 }];
+products.oils.find(p => p.id === 'coconut-oil').sizes = [{ label: '500ml', multiplier: 0.5 }, { label: '1 Litre', multiplier: 1 }];
+products.oils.find(p => p.id === 'castor-oil').sizes = [{ label: '250ml', multiplier: 0.25 }, { label: '500ml', multiplier: 0.5 }];
+products.oils.find(p => p.id === 'safflower-oil').sizes = [{ label: '500ml', multiplier: 0.5 }, { label: '1 Litre', multiplier: 1 }];
+products.oils.find(p => p.id === 'honey').sizes = [{ label: '1 Kg', multiplier: 1 }, { label: '2 Kg', multiplier: 2 }];
+
+products.millets.forEach(m => {
+  m.sizes = [{ label: '1 Kg', multiplier: 1 }, { label: '2 Kg', multiplier: 2 }];
+});
+
 // ── Cart / Order State ──
 let cart = [];
 
@@ -296,12 +309,24 @@ function renderSingleProductPage() {
     window.location.href = 'index.html';
     return;
   }
+  
+  // Expose to global scope for helper functions
+  window.currentProduct = product;
 
   document.title = `${product.name} | Sri Tirumala Organic Oils & Millets`;
 
   const isOut = !product.inStock;
-  const priceDisplay = product.price
-    ? `₹${product.price}/- <span class="unit">per ${product.unit.toLowerCase()}</span>`
+  
+  const sizeOptionsHtml = product.sizes 
+    ? product.sizes.map((size, index) => `<option value="${size.label}" data-multiplier="${size.multiplier}" ${index === 0 ? 'selected' : ''}>${size.label}</option>`).join('') 
+    : `<option value="${product.unit}" data-multiplier="1" selected>${product.unit}</option>`;
+
+  const defaultPrice = product.price 
+    ? Math.round(product.price * (product.sizes ? product.sizes[0].multiplier : 1))
+    : null;
+
+  const priceDisplay = defaultPrice
+    ? `₹${defaultPrice}/- <span class="unit">per ${product.sizes ? product.sizes[0].label : product.unit.toLowerCase()}</span>`
     : `Price TBD`;
 
   const container = document.getElementById('product-container');
@@ -319,8 +344,27 @@ function renderSingleProductPage() {
         </span>
         <h1 class="product-name">${product.name}</h1>
         <p class="product-name-telugu telugu">${product.nameTelugu}</p>
-        <div class="product-price ${!product.price ? 'no-price' : ''}">${priceDisplay}</div>
+        <div class="product-price ${!defaultPrice ? 'no-price' : ''}" id="product-page-price">${priceDisplay}</div>
         <p class="product-description">${product.description}</p>
+        
+        ${isOut ? '' : `
+        <div class="product-variant-selectors">
+          <div class="variant-group">
+            <label for="product-size">Select Size / Weight</label>
+            <select id="product-size" class="variant-select" onchange="updateProductPagePrice()">
+              ${sizeOptionsHtml}
+            </select>
+          </div>
+          <div class="variant-group">
+            <label>Quantity</label>
+            <div class="quantity-stepper" style="border: 2px solid #ddd; border-radius: 6px; padding: 6px;">
+              <button onclick="updateProductPageQty(-1)" style="border:none; background:none; font-size:1.2rem; cursor:pointer; padding: 0 10px;">-</button>
+              <span class="qty-value" id="product-qty" style="font-weight:bold; min-width: 20px; display:inline-block; text-align:center;">1</span>
+              <button onclick="updateProductPageQty(1)" style="border:none; background:none; font-size:1.2rem; cursor:pointer; padding: 0 10px;">+</button>
+            </div>
+          </div>
+        </div>
+        `}
 
         <h3>Health Benefits</h3>
         <ul class="product-benefits-list">
@@ -330,8 +374,8 @@ function renderSingleProductPage() {
         <div class="product-actions">
           ${isOut
             ? `<button class="btn-notify" onclick="notifyMe('${product.name}')">🔔 Notify Me When Available</button>`
-            : `<button class="btn-add-order active" id="btn-${product.id}" onclick="addToCart('${product.id}')">+ Add to Order</button>
-               <button class="btn-whatsapp-order" style="margin-top: 16px" onclick="document.getElementById('order-panel').classList.add('open')">
+            : `<button class="btn-add-order active" id="btn-${product.id}" onclick="addVariantToCart('${product.id}')">+ Add to Order</button>
+               <button class="btn-whatsapp-order" style="margin-top: 16px" onclick="openOrderPanel()">
                  <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
                  Proceed to Checkout
                </button>`
@@ -342,25 +386,89 @@ function renderSingleProductPage() {
   `;
 }
 
+window.updateProductPagePrice = function() {
+  const sizeSelect = document.getElementById('product-size');
+  const priceDisplay = document.getElementById('product-page-price');
+  const product = window.currentProduct;
+  
+  if (!sizeSelect || !priceDisplay || !product || !product.price) return;
+  
+  const multiplier = parseFloat(sizeSelect.options[sizeSelect.selectedIndex].dataset.multiplier);
+  const newPrice = Math.round(product.price * multiplier);
+  
+  priceDisplay.innerHTML = `₹${newPrice}/- <span class="unit">per ${sizeSelect.value}</span>`;
+};
+
+window.updateProductPageQty = function(change) {
+  const qtySpan = document.getElementById('product-qty');
+  if (!qtySpan) return;
+  let qty = parseInt(qtySpan.innerText) + change;
+  if (qty < 1) qty = 1;
+  if (qty > 50) qty = 50;
+  qtySpan.innerText = qty;
+};
+
+window.addVariantToCart = function(productId) {
+  const product = findProduct(productId);
+  if (!product || !product.inStock) return;
+  
+  const sizeSelect = document.getElementById('product-size');
+  const qtySpan = document.getElementById('product-qty');
+  
+  const selectedSizeLabel = sizeSelect ? sizeSelect.value : product.unit;
+  const multiplier = sizeSelect ? parseFloat(sizeSelect.options[sizeSelect.selectedIndex].dataset.multiplier) : 1;
+  const quantity = qtySpan ? parseInt(qtySpan.innerText) : 1;
+  
+  // Unique ID so different sizes don't overwrite each other
+  const variantId = `${product.id}-${selectedSizeLabel.replace(/\s+/g, '-').toLowerCase()}`;
+  const price = product.price ? Math.round(product.price * multiplier) : null;
+  
+  const existing = cart.find(item => item.id === variantId);
+  if (existing) {
+    existing.quantity += quantity;
+  } else {
+    cart.push({
+      id: variantId,
+      productId: product.id,
+      name: `${product.name} (${selectedSizeLabel})`,
+      nameTelugu: product.nameTelugu,
+      price: price,
+      unit: selectedSizeLabel,
+      quantity: quantity
+    });
+  }
+  
+  // Show notification or open cart panel
+  openOrderPanel();
+  renderOrderItems();
+};
+
 
 // ═══════════════ CART MANAGEMENT ═══════════════
 function addToCart(productId) {
   const product = findProduct(productId);
   if (!product || !product.inStock) return;
 
-  const existing = cart.find(item => item.id === productId);
+  const defaultSize = product.sizes ? product.sizes[0] : null;
+  const unitLabel = defaultSize ? defaultSize.label : product.unit;
+  const variantId = defaultSize ? `${product.id}-${unitLabel.replace(/\s+/g, '-').toLowerCase()}` : product.id;
+  const price = defaultSize && product.price ? Math.round(product.price * defaultSize.multiplier) : product.price;
+  const name = defaultSize ? `${product.name} (${unitLabel})` : product.name;
+
+  const existing = cart.find(item => item.id === variantId);
   if (existing) {
-    // Already in cart — open panel to show
+    existing.quantity += 1;
     openOrderPanel();
     return;
   }
 
   cart.push({
-    id: product.id,
-    name: product.name,
+    id: variantId,
+    productId: product.id,
+    name: name,
     nameTelugu: product.nameTelugu,
-    price: product.price,
-    unit: product.unit,
+    price: price,
+    unit: unitLabel,
     quantity: 1
   });
 
@@ -472,7 +580,7 @@ function updateOrderPanel() {
     <div class="order-item">
       <div class="order-item-info">
         <div class="order-item-name">${item.name}</div>
-        <div class="order-item-price">₹${item.price * item.quantity}/- <span class="order-item-unit">(₹${item.price} × ${item.quantity} ${item.unit}${item.quantity > 1 ? 's' : ''})</span></div>
+        <div class="order-item-price">₹${item.price * item.quantity}/- <span class="order-item-unit">(${item.quantity} × ₹${item.price})</span></div>
       </div>
       <div class="quantity-stepper">
         <button onclick="updateQuantity('${item.id}', -1)" aria-label="Decrease quantity">−</button>
@@ -548,8 +656,7 @@ function submitOrder() {
 
   // Build WhatsApp message
   const orderLines = cart.map(item => {
-    const unitLabel = item.unit === 'Kg' ? 'Kg' : (item.quantity > 1 ? 'Litres' : 'Litre');
-    return `• ${item.name} — ${item.quantity} ${unitLabel} — ₹${item.price * item.quantity}/-`;
+    return `• ${item.quantity}x ${item.name} — ₹${item.price * item.quantity}/-`;
   }).join('\n');
 
   const total = getCartTotal();

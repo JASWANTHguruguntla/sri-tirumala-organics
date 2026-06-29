@@ -3029,8 +3029,12 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .product-page-details .product-price {
-  font-size: 2rem;
-  color: var(--clr-gold-dark);
+  font-size: 1.8rem;
+  color: var(--clr-white);
+  background: var(--clr-gold-dark);
+  padding: 10px 24px;
+  border-radius: 50px;
+  width: fit-content;
   font-weight: 700;
   margin-bottom: 24px;
   display: flex;
@@ -3040,7 +3044,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .product-page-details .product-price .unit {
   font-size: 1rem;
-  color: var(--clr-brown);
+  color: rgba(255, 255, 255, 0.85);
   font-weight: 500;
 }
 
@@ -3110,3 +3114,38 @@ h1, h2, h3, h4, h5, h6 {
     border-radius: var(--radius-md);
   }
 }
+
+.product-variant-selectors {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.variant-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.variant-group label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--clr-brown);
+}
+
+.variant-select {
+  padding: 10px 16px;
+  border: 2px solid #ddd;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  background: var(--clr-white);
+  cursor: pointer;
+  outline: none;
+  min-width: 140px;
+}
+
+.variant-select:focus {
+  border-color: var(--clr-primary);
+}
+
