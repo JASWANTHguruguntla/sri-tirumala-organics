@@ -358,9 +358,9 @@ function renderSingleProductPage() {
           <div class="variant-group">
             <label>Quantity</label>
             <div class="quantity-stepper" style="border: 2px solid #ddd; border-radius: 6px; padding: 6px;">
-              <button onclick="updateProductPageQty(-1)" style="border:none; background:none; font-size:1.2rem; cursor:pointer; padding: 0 10px;">-</button>
+              <button onclick="updateProductPageQty(-1)" style="border:none; background:none; font-size:1.2rem; cursor:pointer; padding: 0 10px; color: #000;">-</button>
               <span class="qty-value" id="product-qty" style="font-weight:bold; min-width: 20px; display:inline-block; text-align:center;">1</span>
-              <button onclick="updateProductPageQty(1)" style="border:none; background:none; font-size:1.2rem; cursor:pointer; padding: 0 10px;">+</button>
+              <button onclick="updateProductPageQty(1)" style="border:none; background:none; font-size:1.2rem; cursor:pointer; padding: 0 10px; color: #000;">+</button>
             </div>
           </div>
         </div>
@@ -436,12 +436,18 @@ window.addVariantToCart = function(productId) {
       unit: selectedSizeLabel,
       quantity: quantity
     });
+  // Update button state visually
+  const btn = document.getElementById(`btn-${product.id}`);
+  if (btn) {
+    btn.className = 'btn-add-order active added';
+    btn.innerHTML = '✓ Added to Order';
+    setTimeout(() => {
+      btn.innerHTML = '✓ In Your Order';
+    }, 1000);
   }
   
-  // Show notification or open cart panel
   updateOrderPanel();
   showOrderToggle();
-  openOrderPanel();
 };
 
 
