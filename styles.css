@@ -180,10 +180,7 @@ h1, h2, h3, h4, h5, h6 {
 .nav-logo {
   width: 50px;
   height: 50px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid var(--clr-gold);
-  box-shadow: 0 0 12px rgba(200, 150, 12, 0.4);
+  object-fit: contain;
   transition: transform var(--transition);
 }
 
@@ -1099,9 +1096,8 @@ h1, h2, h3, h4, h5, h6 {
 .footer-logo {
   width: 56px;
   height: 56px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid var(--clr-gold);
+  object-fit: contain;
+  flex-shrink: 0;
 }
 
 .footer-brand-name {
